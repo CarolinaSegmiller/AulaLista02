@@ -1,0 +1,134 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Produto {
+    private String codigo;
+    private String nome;
+    private int quantidade;
+
+    // Construtor
+    public Produto(String codigo, String nome, int quantidade) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.quantidade = quantidade;
+    }
+
+    // Getters e Setters
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{codigo='" + codigo + "', nome='" + nome + "', quantidade=" + quantidade + "}";
+    }
+}
+
+class Estoque {
+    private List<Produto> produtos;
+
+    // Construtor
+    public Estoque() {
+        this.produtos = new ArrayList<>();
+    }
+
+    // Adicionar produto
+    public void adicionarProduto(Produto produto) {
+        produtos.add(produto);
+    }
+
+    // Remover produto pelo código
+    public boolean removerProdutoPorCodigo(String codigo) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo().equals(codigo)) {
+                produtos.remove(produto);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Buscar produto pelo código
+    public Produto buscarProdutoPorCodigo(String codigo) {
+        for (Produto produto : produtos) {
+            if (produto.getCodigo().equals(codigo)) {
+                return produto;
+            }
+        }
+        return null; // Retorna null se não encontrar
+    }
+
+    // Buscar produto pelo nome
+    public Produto buscarProdutoPorNome(String nome) {
+        for (Produto produto : produtos) {
+            if (produto.getNome().equalsIgnoreCase(nome)) {
+                return produto;
+            }
+        }
+        return null; // Retorna null se não encontrar
+    }
+
+    // Exibir todos os produtos
+    public void exibirProdutos() {
+        for (Produto produto : produtos) {
+            System.out.println(produto);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Estoque estoque = new Estoque();
+
+        // Adicionando produtos
+        estoque.adicionarProduto(new Produto("001", "Arroz", 50));
+        estoque.adicionarProduto(new Produto("002", "Feijão", 30));
+        estoque.adicionarProduto(new Produto("003", "Macarrão", 100));
+
+        // Exibindo produtos
+        System.out.println("Produtos no estoque:");
+        estoque.exibirProdutos();
+
+        // Buscando produto pelo código
+        System.out.println("\nBuscando produto pelo código '002':");
+        Produto produtoPorCodigo = estoque.buscarProdutoPorCodigo("002");
+        System.out.println(produtoPorCodigo != null ? produtoPorCodigo : "Produto não encontrado");
+
+        // Buscando produto pelo nome
+        System.out.println("\nBuscando produto pelo nome 'Arroz':");
+        Produto produtoPorNome = estoque.buscarProdutoPorNome("Arroz");
+        System.out.println(produtoPorNome != null ? produtoPorNome : "Produto não encontrado");
+
+        // Removendo produto pelo código
+        System.out.println("\nRemovendo produto com código '003':");
+        if (estoque.removerProdutoPorCodigo("003")) {
+            System.out.println("Produto removido com sucesso!");
+        } else {
+            System.out.println("Produto não encontrado.");
+        }
+
+        // Exibindo produtos após remoção
+        System.out.println("\nProdutos no estoque após remoção:");
+        estoque.exibirProdutos();
+    }
+}
